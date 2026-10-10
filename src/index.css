@@ -1,15 +1,20 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #4338ca;
-  --color-primary-hover: #3730a3;
-  --color-primary-soft: #eef2ff;
-  --color-navy: #172554;
-  --color-surface: #f8fafc;
+  /* Brand yellow (fills) with dark text on top; amber ink for accent text on white. */
+  --color-primary: #ffc61a;
+  --color-primary-hover: #f5b800;
+  --color-primary-soft: #fff6d1;
+  --color-primary-ink: #7a5300;
+  --color-on-primary: #111827;
+  /* Blue for text links and focus rings, as in the reference "View All" links. */
+  --color-accent: #1d5fd1;
+  --color-navy: #1c1f24;
+  --color-surface: #f6f7f9;
   --color-card: #ffffff;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
-  --color-line: #e2e8f0;
+  --color-ink: #111827;
+  --color-muted: #6b7280;
+  --color-line: #e5e7eb;
   --color-success: #15803d;
   --color-warning: #b45309;
   --color-danger: #b91c1c;
@@ -23,6 +28,11 @@
 @keyframes toast-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes searchbar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
 }
 
 @keyframes fade-in {

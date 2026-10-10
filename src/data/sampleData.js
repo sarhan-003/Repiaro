@@ -15,9 +15,6 @@ const pexels = (id, width = 640) =>
 
 export const HERO_IMAGE = pexels(5691544, 1400)
 
-/** Standard bookable slots, 24h "HH:MM" local time. */
-export const TIME_SLOTS = ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00']
-
 export const SERVICE_CATEGORIES = [
   {
     id: 'plumbing',
@@ -465,21 +462,189 @@ export const SAMPLE_TESTIMONIALS = [
   },
 ]
 
-/** The provider whose view the dashboard opens with. */
+/** The provider whose view the partner app opens with. */
 export const DEFAULT_DASHBOARD_PROVIDER_ID = 'provider-001'
 
-/** Seed bookings, dated relative to today so the dashboards always have something to show. */
+/**
+ * Service menu with upfront fares (like ride types in a ride-hailing app).
+ * Fares cover labour; parts and materials are extra. Super admins can edit them.
+ */
+export const SERVICE_ITEMS = {
+  plumbing: [
+    { id: 'leak-repair', name: 'Tap & pipe leak repair', fare: 299, mins: 45 },
+    { id: 'drain', name: 'Drain unclogging', fare: 349, mins: 60 },
+    { id: 'tap-install', name: 'Tap / mixer installation', fare: 249, mins: 30 },
+    { id: 'bath-fitting', name: 'Bathroom fitting install', fare: 499, mins: 90 },
+  ],
+  electrical: [
+    { id: 'switch', name: 'Switch / socket repair', fare: 149, mins: 30 },
+    { id: 'fan', name: 'Ceiling fan installation', fare: 249, mins: 45 },
+    { id: 'light', name: 'Light fitting', fare: 199, mins: 30 },
+    { id: 'fault', name: 'Wiring fault check', fare: 399, mins: 60 },
+  ],
+  cleaning: [
+    { id: 'bathroom', name: 'Bathroom cleaning', fare: 399, mins: 60 },
+    { id: 'kitchen', name: 'Kitchen deep clean', fare: 899, mins: 150 },
+    { id: 'home', name: 'Full home deep clean', fare: 2499, mins: 300 },
+    { id: 'sofa', name: 'Sofa shampoo (3-seater)', fare: 699, mins: 90 },
+  ],
+  carpentry: [
+    { id: 'furniture-repair', name: 'Furniture repair', fare: 349, mins: 60 },
+    { id: 'assembly', name: 'Furniture assembly', fare: 499, mins: 90 },
+    { id: 'door', name: 'Door & hinge repair', fare: 299, mins: 45 },
+    { id: 'shelf', name: 'Shelf installation', fare: 399, mins: 60 },
+  ],
+  painting: [
+    { id: 'touchup', name: 'Wall touch-up', fare: 799, mins: 120 },
+    { id: 'room', name: 'Single room repaint', fare: 2999, mins: 480 },
+    { id: 'texture', name: 'Texture feature wall', fare: 3499, mins: 480 },
+  ],
+  'appliance-repair': [
+    { id: 'washer', name: 'Washing machine repair', fare: 349, mins: 60 },
+    { id: 'fridge', name: 'Refrigerator repair', fare: 399, mins: 60 },
+    { id: 'ac', name: 'AC service', fare: 599, mins: 60 },
+    { id: 'microwave', name: 'Microwave repair', fare: 299, mins: 45 },
+  ],
+  gardening: [
+    { id: 'lawn', name: 'Lawn mowing', fare: 399, mins: 60 },
+    { id: 'hedge', name: 'Hedge trimming', fare: 449, mins: 60 },
+    { id: 'balcony', name: 'Balcony garden set-up', fare: 999, mins: 120 },
+  ],
+}
+
+/** Bookable hours for scheduled requests (24h "HH:MM"). */
+export const SCHEDULE_SLOTS = ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00']
+
+const applicant = (fields) => ({
+  rating: 0,
+  reviewCount: 0,
+  available: false,
+  priceUnit: 'per visit',
+  availableSlots: ['09:00', '11:00', '13:00', '15:00', '17:00'],
+  description: 'New partner. Applicant profile under admin review.',
+  reviews: [],
+  isDemo: true,
+  isApplicant: true,
+  ...fields,
+})
+
+/** Fictional professionals who have applied and await admin approval. */
+export const PROVIDER_APPLICATIONS = [
+  applicant({
+    id: 'provider-015',
+    name: 'Kiran Shetty',
+    image: pexels(17450830, 480),
+    category: 'Electrical',
+    skills: ['Wiring', 'Inverter Setup', 'Fan Fitting'],
+    experience: 4,
+    locality: 'Wakad',
+    serviceAreas: ['Wakad', 'Hinjewadi', 'Pimple Saudagar'],
+    price: 199,
+    offDays: [0],
+    services: ['Switch and socket repair', 'Ceiling fan installation', 'Inverter installation'],
+    appliedOn: '2026-10-08',
+    documents: ['ID proof', 'Address proof', 'Trade certificate'],
+  }),
+  applicant({
+    id: 'provider-016',
+    name: 'Pooja Deshpande',
+    image: null,
+    category: 'Cleaning',
+    skills: ['Home Cleaning', 'Kitchen Cleaning'],
+    experience: 3,
+    locality: 'Aundh',
+    serviceAreas: ['Aundh', 'Baner', 'Pashan'],
+    price: 399,
+    offDays: [2],
+    services: ['Full home cleaning', 'Kitchen deep cleaning', 'Bathroom cleaning'],
+    appliedOn: '2026-10-09',
+    documents: ['ID proof', 'Address proof'],
+  }),
+  applicant({
+    id: 'provider-017',
+    name: 'Sameer Khan',
+    image: null,
+    category: 'Carpentry',
+    skills: ['Furniture Assembly', 'Door Repair'],
+    experience: 8,
+    locality: 'Hadapsar',
+    serviceAreas: ['Hadapsar', 'Magarpatta', 'Kondhwa'],
+    price: 329,
+    offDays: [5],
+    services: ['Furniture assembly', 'Door and hinge repair'],
+    appliedOn: '2026-10-10',
+    documents: ['ID proof', 'Address proof', 'Work samples'],
+  }),
+]
+
+export const ALL_PROVIDERS = [...PROVIDERS, ...PROVIDER_APPLICATIONS]
+
+/** Fictional admin accounts managed by the super admin. Emails use the reserved example.com domain. */
+export const DEFAULT_ADMINS = [
+  {
+    id: 'admin-1',
+    name: 'Neha Kulkarni',
+    email: 'neha.ops@example.com',
+    categories: ['plumbing', 'electrical', 'appliance-repair'],
+    active: true,
+  },
+  {
+    id: 'admin-2',
+    name: 'Arjun Mehta',
+    email: 'arjun.ops@example.com',
+    categories: ['cleaning', 'carpentry', 'painting', 'gardening'],
+    active: true,
+  },
+  {
+    id: 'admin-3',
+    name: 'Farah Siddiqui',
+    email: 'farah.ops@example.com',
+    categories: SERVICE_CATEGORIES.map((c) => c.id),
+    active: false,
+  },
+]
+
+/** Platform-wide settings a super admin can change. Timings are compressed for the demo. */
+export const DEFAULT_SETTINGS = {
+  commissionPct: 15,
+  convenienceFee: 19,
+  offerTimeoutSec: 20,
+  demoAutopilot: true,
+  autoAcceptSec: 5,
+  travelSec: 40,
+  jobSec: 45,
+}
+
+/** Seed bookings, dated relative to today so every dashboard has history to show. */
 export function createSeedBookings(today = new Date()) {
   const at = (offset) => toISODate(addDays(today, offset))
-  const createdAt = (offset) => addDays(today, offset).toISOString()
-  const seed = ({ createdOffset, history, ...booking }) => ({
-    ...booking,
+  const stamp = (offset) => addDays(today, offset).toISOString()
+  const seed = ({ createdOffset, history, itemFare, ...booking }) => ({
+    mode: 'now',
+    timeSlot: null,
     instructions: '',
+    description: '',
+    payment: 'cash',
+    preferredProviderId: null,
+    offer: null,
+    offerCount: 1,
+    declinedBy: [],
+    otp: '4821',
+    eta: null,
+    review: null,
+    cancelledBy: null,
+    customerName: 'Ananya Rao',
+    phone: '+91 98765 43210',
+    address: 'Flat 4B, Sample Residency, Paud Road',
+    ...booking,
+    fare: { item: itemFare, surge: 1, surgeAmount: 0, fee: 19, total: itemFare + 19 },
+    price: itemFare + 19,
     isSeed: true,
-    createdAt: createdAt(createdOffset),
-    updatedAt: createdAt(history.at(-1)[1]),
-    statusHistory: history.map(([status, offset]) => ({ status, at: createdAt(offset) })),
+    createdAt: stamp(createdOffset),
+    updatedAt: stamp(history.at(-1)[1]),
+    statusHistory: history.map(([status, offset]) => ({ status, at: stamp(offset) })),
   })
+  const FULL = (d) => [['searching', d], ['accepted', d], ['on-the-way', d], ['arrived', d], ['in-progress', d], ['completed', d]]
 
   return [
     seed({
@@ -487,90 +652,66 @@ export function createSeedBookings(today = new Date()) {
       providerId: 'provider-001',
       providerName: 'Ravi Kumar',
       category: 'Plumbing',
-      service: 'Leak repair',
-      description: 'Water dripping under the kitchen sink whenever the tap is used.',
-      customerName: 'Ananya Rao',
-      phone: '+91 98765 43210',
-      address: 'Flat 4B, Sample Residency, Paud Road',
+      categoryId: 'plumbing',
+      itemId: 'leak-repair',
+      service: 'Tap & pipe leak repair',
+      description: 'Water dripping under the kitchen sink.',
       locality: 'Kothrud',
-      date: at(2),
-      timeSlot: '11:00',
-      price: 299,
-      status: 'pending',
-      createdOffset: -1,
-      history: [['pending', -1]],
+      date: at(-6),
+      itemFare: 299,
+      status: 'completed',
+      createdOffset: -6,
+      history: FULL(-6),
+      review: { rating: 5, comment: 'Found the leak quickly and explained what had failed.', at: stamp(-5) },
     }),
     seed({
       id: 'HAR-SAMPLE-02',
-      providerId: 'provider-001',
-      providerName: 'Ravi Kumar',
-      category: 'Plumbing',
-      service: 'Drain unclogging',
-      description: 'Bathroom floor drain is slow and water collects near the shower.',
-      customerName: 'Kunal Mehta',
-      phone: '9822012345',
-      address: 'Bungalow 12, Demo Lane, Karve Road',
-      locality: 'Karve Nagar',
-      date: at(0),
-      timeSlot: '15:00',
-      price: 299,
-      status: 'accepted',
-      createdOffset: -2,
-      history: [['pending', -2], ['accepted', -1]],
-    }),
-    seed({
-      id: 'HAR-SAMPLE-03',
       providerId: 'provider-003',
       providerName: 'Harpreet Singh',
       category: 'Electrical',
+      categoryId: 'electrical',
+      itemId: 'fan',
       service: 'Ceiling fan installation',
-      description: 'Install two new ceiling fans in the bedrooms; hooks already present.',
-      customerName: 'Ananya Rao',
-      phone: '+91 98765 43210',
-      address: 'Flat 4B, Sample Residency, Paud Road',
       locality: 'Aundh',
-      date: at(1),
-      timeSlot: '13:00',
-      price: 249,
-      status: 'accepted',
+      date: at(-3),
+      itemFare: 249,
+      payment: 'upi',
+      status: 'completed',
       createdOffset: -3,
-      history: [['pending', -3], ['accepted', -2]],
+      history: FULL(-3),
     }),
     seed({
-      id: 'HAR-SAMPLE-04',
+      id: 'HAR-SAMPLE-03',
       providerId: 'provider-005',
       providerName: 'Lakshmi Iyer',
       category: 'Cleaning',
-      service: 'Kitchen deep cleaning',
-      description: 'Deep clean of kitchen including chimney exterior and cabinets.',
-      customerName: 'Ananya Rao',
-      phone: '+91 98765 43210',
-      address: 'Flat 4B, Sample Residency, Paud Road',
+      categoryId: 'cleaning',
+      itemId: 'kitchen',
+      service: 'Kitchen deep clean',
       locality: 'Baner',
-      date: at(-6),
-      timeSlot: '09:00',
-      price: 499,
-      status: 'completed',
-      createdOffset: -9,
-      history: [['pending', -9], ['accepted', -8], ['in-progress', -6], ['completed', -6]],
+      mode: 'scheduled',
+      date: at(1),
+      timeSlot: '11:00',
+      itemFare: 899,
+      status: 'accepted',
+      createdOffset: -1,
+      history: [['searching', -1], ['accepted', -1]],
     }),
     seed({
-      id: 'HAR-SAMPLE-05',
-      providerId: 'provider-001',
-      providerName: 'Ravi Kumar',
-      category: 'Plumbing',
-      service: 'Tap and mixer installation',
-      description: 'Replace old bathroom mixer with a new one already purchased.',
-      customerName: 'Deepa Kulkarni',
-      phone: '9011122233',
-      address: 'Flat 7, Example Heights, Law College Road',
-      locality: 'Erandwane',
-      date: at(-4),
-      timeSlot: '11:00',
-      price: 299,
-      status: 'completed',
-      createdOffset: -7,
-      history: [['pending', -7], ['accepted', -6], ['in-progress', -4], ['completed', -4]],
+      id: 'HAR-SAMPLE-04',
+      providerId: null,
+      providerName: null,
+      category: 'Carpentry',
+      categoryId: 'carpentry',
+      itemId: 'door',
+      service: 'Door & hinge repair',
+      locality: 'Kothrud',
+      date: at(-2),
+      itemFare: 299,
+      status: 'cancelled',
+      cancelledBy: 'customer',
+      createdOffset: -2,
+      history: [['searching', -2], ['cancelled', -2]],
     }),
   ]
 }

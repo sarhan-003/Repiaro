@@ -6,7 +6,7 @@ export const ToastContext = createContext(null)
 const TONES = {
   success: { icon: CircleCheck, className: 'border-success/30 text-success' },
   error: { icon: CircleAlert, className: 'border-danger/30 text-danger' },
-  info: { icon: Info, className: 'border-primary/30 text-primary' },
+  info: { icon: Info, className: 'border-primary/30 text-primary-ink' },
 }
 
 let nextId = 1
@@ -42,7 +42,7 @@ export function ToastProvider({ children }) {
       {children}
       <div
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-4 bottom-4 z-50 flex flex-col items-center gap-2 sm:inset-x-auto sm:right-6 sm:items-end"
+        className="pointer-events-none fixed inset-x-4 bottom-20 z-50 md:bottom-4 flex flex-col items-center gap-2 sm:inset-x-auto sm:right-6 sm:items-end"
       >
         {toasts.map(({ id, message, tone }) => {
           const { icon: Icon, className } = TONES[tone] ?? TONES.info

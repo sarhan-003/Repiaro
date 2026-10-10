@@ -3,9 +3,13 @@
 // validate what comes back.
 
 export const STORAGE_KEYS = {
-  bookings: 'har:bookings:v1',
+  bookings: 'har:bookings:v2',
   availability: 'har:availability:v1',
   dashboardProvider: 'har:dashboard-provider:v1',
+  platform: 'har:platform:v1',
+  session: 'har:console-session:v1',
+  customer: 'har:customer:v1',
+  partnerLive: 'har:partner-live:v1',
 }
 
 function getStorage() {

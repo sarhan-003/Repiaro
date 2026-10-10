@@ -1,18 +1,18 @@
-import { PROVIDERS, SERVICE_CATEGORIES } from '../data/sampleData'
-import { addDays, toISODate } from './formatDate'
+import { ALL_PROVIDERS, SCHEDULE_SLOTS, SERVICE_CATEGORIES } from '../data/sampleData'
+import { addDays, isSlotPast, toISODate } from './formatDate'
 
-export const getProviderById = (id) => PROVIDERS.find((p) => p.id === id) ?? null
+export const getProviderById = (id) => ALL_PROVIDERS.find((p) => p.id === id) ?? null
 
 export const getCategoryById = (id) => SERVICE_CATEGORIES.find((c) => c.id === id) ?? null
 
 export const getCategoryByName = (name) => SERVICE_CATEGORIES.find((c) => c.name === name) ?? null
 
-/** Next `count` working days for a provider, starting today. */
-export function getUpcomingDates(provider, count = 7, today = new Date()) {
+/** Next `count` days that still have a bookable slot, starting today (for scheduled requests). */
+export function getScheduleDates(count = 7, now = new Date()) {
   const dates = []
-  for (let offset = 0; dates.length < count && offset < 30; offset++) {
-    const day = addDays(today, offset)
-    if (!provider.offDays.includes(day.getDay())) dates.push(toISODate(day))
+  for (let offset = 0; dates.length < count && offset < count + 1; offset++) {
+    const date = toISODate(addDays(now, offset))
+    if (SCHEDULE_SLOTS.some((slot) => !isSlotPast(date, slot, now))) dates.push(date)
   }
   return dates
 }
